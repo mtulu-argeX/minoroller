@@ -32,6 +32,16 @@ def recvDrone():
             break
 
 
+def stateDrone():
+    count = 0
+    while True:
+        try:
+            data, server = sock.recvfrom(1518)
+            print(data.decode(encoding="utf-8"))
+        except Exception:
+            print ('\nExit . . .\n')
+            break
+
 
 #print ('Tello: command takeoff land flip forward back left right \r\n       up down cw ccw speed speed?\r\n')
 
@@ -43,6 +53,9 @@ def initDrone():
     #recvThread create
     recvThread = threading.Thread(target=recvDrone)
     recvThread.start()
+    
+   # stateThread = threading.Thread(target=stateDrone)
+   # stateThread.start()
 
 def sendCommandDrone(msg ):
     try:
@@ -132,6 +145,7 @@ def main():
                 # Timeout waiting for data, None is returned.
                 print('Received no data!')
             sendCommandDrone(received)
+            sendCommandDrone("state?")
     finally:
         # Make sure device is disconnected on exit.
         device.disconnect()
