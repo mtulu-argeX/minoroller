@@ -1,0 +1,16 @@
+eceived: command
+Traceback (most recent call last):
+  File "controller.py", line 193, in <module>
+    ble.run_mainloop_with(main)
+  File "/home/pi/.local/lib/python3.7/site-packages/Adafruit_BluefruitLE/bluez_dbus/provider.py", line 105, in run_mainloop_with
+    raise_(self._exception[1], None, self._exception[2])
+  File "/usr/local/lib/python3.7/dist-packages/future/utils/__init__.py", line 441, in raise_
+    raise exc
+  File "/home/pi/.local/lib/python3.7/site-packages/Adafruit_BluefruitLE/bluez_dbus/provider.py", line 120, in _user_thread_main
+    self._return_code = target()
+  File "controller.py", line 180, in main
+    sendCommandDrone(received)
+  File "controller.py", line 100, in sendCommandDrone
+    sent = sock.sendto(msg, tello_address)
+OSError: [Errno 101] Network is unreachable
+

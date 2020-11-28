@@ -14,6 +14,36 @@ port = 9000
 locaddr = (host,port)
 
 
+host_ip = "0.0.0.0"
+response_port = 8890
+uart = None
+
+class Tello:
+    def __init__(self):
+        self._running = True
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.sock.bind((host_ip, response_port))  # Bind for receiving
+
+    def terminate(self):
+        self._running = False
+        self.sock.close()
+
+    def recv(self):
+        """ Handler for Tello states message """
+        while self._running:
+            try:
+                msg, _ = self.sock.recvfrom(1024)  # Read 1024-bytes from UDP socket
+                A = msg.decode(encoding="utf-8")
+                print("states: {}".format(A))
+                A=[float(x.split(":")[1]) for x in A.strip().split(";")[:-1]]
+                formatMes="%4.0f %4.0f %4.0f %4.0f %4.0f %4.0f %4.0f %4.0f %4.0f" % (A[0], A[1], A[2],  A[3], A[4], A[5],A[9], A[10], A[12] )
+                print ("A %s",formatMes)
+                uart.write(b'%s\r\n'%formatMes)
+            except Exception as err:
+                print(err)
+
+
+
 # Create a UDP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -53,13 +83,16 @@ def initDrone():
     #recvThread create
     recvThread = threading.Thread(target=recvDrone)
     recvThread.start()
+    t = Tello()
+    recvThread = threading.Thread(target=t.recv)
+    recvThread.start()
     
    # stateThread = threading.Thread(target=stateDrone)
    # stateThread.start()
 
 def sendCommandDrone(msg ):
     try:
-        if 'end' in msg:
+        if 'end' == msg:
             print ('...')
             sock.close()
 
@@ -128,10 +161,11 @@ def main():
 
         # Once service discovery is complete create an instance of the service
         # and start interacting with it.
+        global uart
         uart = UART(device)
 
         # Write a string to the TX characteristic.
-        #uart.write(b'Hello world!\r\n')
+        uart.write(b'Hello world!\r\n')
         #print("Sent 'Hello world!' to the device.")
 
         # Now wait up to one minute to receive data from the device.
@@ -144,8 +178,9 @@ def main():
             else:
                 # Timeout waiting for data, None is returned.
                 print('Received no data!')
+                continue
             sendCommandDrone(received)
-            sendCommandDrone("state?")
+            #sendCommandDrone("state?")
     finally:
         # Make sure device is disconnected on exit.
         device.disconnect()
