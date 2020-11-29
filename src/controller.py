@@ -37,8 +37,15 @@ class Tello:
                 print("states: {}".format(A))
                 A=[float(x.split(":")[1]) for x in A.strip().split(";")[:-1]]
                 formatMes="%4.0f %4.0f %4.0f %4.0f %4.0f %4.0f %4.0f %4.0f %4.0f" % (A[0], A[1], A[2],  A[3], A[4], A[5],A[9], A[10], A[12] )
-                print ("A %s",formatMes)
-                uart.write(b'%s\r\n'%formatMes)
+                #print ("A %s"%formatMes.encode(encoding="utf-8"))
+                #uart.write(b'%s\r\n'%formatMes)
+                #print ("A ",type (formatMes))
+                _tmp = ("%s"%(formatMes)).encode()
+                #print ("B ",type(_tmp), _tmp)
+                uart.write(_tmp)
+
+                #uart.write(_tmp)
+                #uart.write(bytes('%s\r\n'%_tmp),'utf-8')
             except Exception as err:
                 print(err)
 

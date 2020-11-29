@@ -1,0 +1,16 @@
+A %s    0   -5   -4    0    0    0    0   43    0
+%b requires a bytes-like object, or an object that implements __bytes__, not 'str'
+
+
+A %s  -41  -41   -3    0    8   -4    0   40    0
+string argument without an encoding
+A b'  -1    0   -3    0    0    0    0   37    0'
+string argument without an encoding
+
+A  <class 'str'>
+B  <class 'bytes'>
+string argument without an encoding
+
+ERROR:dbus.connection:Unable to set arguments ("b'   0    '", {}) according to signature 'aya{sv}': <class 'TypeError'>: an integer is required (got type str)
+an integer is required (got type str)
+
