@@ -4,8 +4,6 @@ import sys
 import time
 import platform
 # Example of interaction with a BLE UART device using a UART service
-# implementation.
-# Author: Tony DiCola
 import Adafruit_BluefruitLE
 from Adafruit_BluefruitLE.services import UART
 
