@@ -4,8 +4,6 @@ import sys
 import time
 import platform
 # Example of interaction with a BLE UART device using a UART service
-# implementation.
-# Author: Tony DiCola
 import Adafruit_BluefruitLE
 from Adafruit_BluefruitLE.services import UART
 
@@ -37,7 +35,7 @@ class Tello:
                 print("states: {}".format(A))
                 A=[float(x.split(":")[1]) for x in A.strip().split(";")[:-1]]
                 #formatMes="%4.0f %4.0f %4.0f %4.0f %4.0f %4.0f %4.0f %4.0f %4.0f" % (A[0], A[1], A[2],  A[3], A[4], A[5],A[9], A[10], A[12] )
-                formatMes="%4.0f%4.0f%4.0f%4.0f%4.0f" % (A[0], A[1], A[2], A[9],A[3] )
+                formatMes="%4.0f%4.0f%4.0f%4.0f%4.0f" % (A[7], A[10], A[2], A[9],A[3] )
                 #print ("A %s"%formatMes.encode(encoding="utf-8"))
                 #uart.write(b'%s\r\n'%formatMes)
                 #print ("A ",type (formatMes))

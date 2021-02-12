@@ -1,0 +1,2 @@
+Download the library from here https://github.com/donatieng/Adafruit_Python_BluefruitLE
+Run "Sudo python3 setup.py install"
